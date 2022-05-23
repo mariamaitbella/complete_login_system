@@ -13,20 +13,21 @@ import PressableText from "../components/Texts/PressableText";
 
 const { primary } = colors;
 
-const Signup = ({navigation}) => {
+const Signup = ({ navigation }) => {
   const [message, setMessage] = useState("");
-  const [isSuccessMessage, setisSuccessMessage] = useState(false);
+  const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
   const moveTo = (screen, payload) => {
     navigation.navigate(screen, { ...payload });
   };
 
-  const handleSignup = async (credentials, setSubmiting) => {
+  const handleSignup = async (credentials, setSubmitting) => {
     try {
       setMessage(null);
       //backend
       //move to next page
-      moveTo('EmailVerification');
+      moveTo("EmailVerification");
+      setSubmitting(false);
     } catch (error) {
       setMessage("Signup failed" + error.message);
       setSubmitting(false);
@@ -40,14 +41,24 @@ const Signup = ({navigation}) => {
           Enter your account credentials
         </RegularText>
         <Formik
-          initialValues={{ email: "",fullName:"", password: "",confirmPassword:"" }}
+          initialValues={{
+            email: "",
+            fullName: "",
+            password: "",
+            confirmPassword: "",
+          }}
           onSubmit={(values, { setSubmitting }) => {
-            if (values.email == "" || values.password == ""||values.fullName == "" || values.confirmPassword == "") {
+            if (
+              values.email == "" ||
+              values.password == "" ||
+              values.fullName == "" ||
+              values.confirmPassword == ""
+            ) {
               setMessage("Please fill in all fields");
               setSubmitting(false);
-            }else if(values.password !== values.confirmPassword){
-                setMessage("Passwords do not match");
-                setSubmitting(false);  
+            } else if (values.password !== values.confirmPassword) {
+              setMessage("Passwords do not match");
+              setSubmitting(false);
             } else {
               handleSignup(values, setSubmitting);
             }
@@ -86,7 +97,7 @@ const Signup = ({navigation}) => {
                 placeholder="* * * * * * * *"
                 onChangeText={handleChange("password")}
                 onBlur={handleBlur("password")}
-                value={values.confirmPassword}
+                value={values.password}
                 isPassword={true}
                 style={{ marginBottom: 15 }}
               />
@@ -94,12 +105,13 @@ const Signup = ({navigation}) => {
                 label="Confirm Password"
                 icon="lock-open"
                 placeholder="* * * * * * * *"
-                onChangeText={handleChange("Confirm password")}
-                onBlur={handleBlur("password")}
-                value={values.password}
+                onChangeText={handleChange("confirmPassword")}
+                onBlur={handleBlur("confirmPassword")}
+                value={values.confirmPassword}
                 isPassword={true}
                 style={{ marginBottom: 15 }}
               />
+
               <MsgBox style={{ marginBottom: 25 }} success={isSuccessMessage}>
                 {message || " "}
               </MsgBox>
@@ -111,11 +123,14 @@ const Signup = ({navigation}) => {
                   <ActivityIndicator size="small" color={primary} />
                 </RegularButton>
               )}
-                <PressableText style={{paddingVertical:15}} onPress={() => {
-                  moveTo('Login');
-                }}>
-                  Sign in to an existing account
-                </PressableText>
+              <PressableText
+                style={{ paddingVertical: 15 }}
+                onPress={() => {
+                  moveTo("Login");
+                }}
+              >
+                Sign in to an existing account
+              </PressableText>
             </>
           )}
         </Formik>
