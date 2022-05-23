@@ -6,7 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 //styled components
 import styled from "styled-components/native";
 import { colors } from "../components/colors";
-const { primary, accent, secondary } = colors;
+const { primary, accent, secondary, darkGray } = colors;
 import { AccessibilityInfo } from "react-native-web";
 
 import Login from "../screens/Login";
@@ -15,6 +15,7 @@ import EmailVerification from "../screens/EmailVerification";
 import ForgotPassword from "../screens/ForgotPassword";
 import ResetPassword from "../screens/ResetPassword";
 import Dashboard from "../screens/Dashboard";
+import Avatar from "../components/Buttons/Avatar";
 
 const Stack = createStackNavigator();
 
@@ -43,15 +44,36 @@ const RootStack = () => {
       >
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
-        <Stack.Screen name="EmailVerification" component={EmailVerification}
-        options={{headerTitle: 'Email Verification'}}
+        <Stack.Screen
+          name="EmailVerification"
+          component={EmailVerification}
+          options={{ headerTitle: "Email Verification" }}
         />
-        <Stack.Screen name="ForgotPassword" component={ForgotPassword}
-        options={{headerTitle: 'Forgot Password'}} />
-        <Stack.Screen name="ResetPassword" component={ResetPassword} 
-        options={{headerTitle: 'Reset Password'}} />
-        <Stack.Screen name="Dashboard" component={Dashboard} 
-        options={{headerTitle: 'Dashboard'}} />
+        <Stack.Screen
+          name="ForgotPassword"
+          component={ForgotPassword}
+          options={{ headerTitle: "Forgot Password" }}
+        />
+        <Stack.Screen
+          name="ResetPassword"
+          component={ResetPassword}
+          options={{ headerTitle: "Reset Password" }}
+        />
+        <Stack.Screen
+          name="Dashboard"
+          component={Dashboard}
+          options={{
+            headerStyle: {
+              height: 100,
+              backgroundColor: darkGray,
+              borderBottomWidth: 0,
+              shadowColor: "transparent",
+              shadowOpacity: 0,
+              elevation: 0,
+            },
+            headerRight: () => <Avatar />,
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

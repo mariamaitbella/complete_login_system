@@ -22,7 +22,7 @@ const FormWrapper = styled.View`
   }}
 `;
 
-const ResetPassword = () => {
+const ResetPassword = ({navigation}) => {
   const [message, setMessage] = useState("");
   const [isSuccessMessage, setisSuccessMessage] = useState(false);
 
@@ -41,6 +41,12 @@ const ResetPassword = () => {
   const [headerText, setHeaderText] = useState("");
   const [modalMessage, setModalMessage] = useState("");
   const [buttonText, setButtonText] = useState("");
+
+
+  const moveTo = (screen, payLoad) => {
+    navigation.navigate(screen, { ...payLoad });
+  };
+
 
   const buttonHandler = () => {
     if (modalMessageType === "success") {
@@ -62,6 +68,7 @@ const ResetPassword = () => {
       setMessage(null);
       //call backend
       //move to next page
+      moveTo('Login');
       setSubmiting(false);
       return showModal(
         "success",

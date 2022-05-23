@@ -12,7 +12,7 @@ import ResendTimer from "../components/Timers/ResendTimer";
 import MessageModal from "../components/Modals/MessageModal";
 const { primary, secondary, lightGray } = colors;
 
-const EmailVerification = () => {
+const EmailVerification = ({navigation}) => {
   const MAX_CODE_LENGTH = 4;
   const [code, setCode] = useState("");
   const [pinReady, setPinReady] = useState(false);
@@ -31,9 +31,13 @@ const EmailVerification = () => {
   const [modalMessage, setModalMessage] = useState("");
   const [buttonText, setButtonText] = useState("");
 
+  const moveTo = (screen, payLoad) => {
+    navigation.navigate(screen, { ...payLoad });
+  };
   const buttonHandler = () => {
     if (modalMessageType === "success") {
       // do something
+      moveTo('Dashboard');
     }
 
     setModalVisible(false);

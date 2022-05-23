@@ -13,15 +13,20 @@ import PressableText from "../components/Texts/PressableText";
 
 const { primary } = colors;
 
-const Signup = () => {
+const Signup = ({navigation}) => {
   const [message, setMessage] = useState("");
   const [isSuccessMessage, setisSuccessMessage] = useState(false);
+
+  const moveTo = (screen, payload) => {
+    navigation.navigate(screen, { ...payload });
+  };
 
   const handleSignup = async (credentials, setSubmiting) => {
     try {
       setMessage(null);
       //backend
       //move to next page
+      moveTo('EmailVerification');
     } catch (error) {
       setMessage("Signup failed" + error.message);
       setSubmitting(false);
@@ -106,7 +111,9 @@ const Signup = () => {
                   <ActivityIndicator size="small" color={primary} />
                 </RegularButton>
               )}
-                <PressableText style={{paddingVertical:15}} onPress={() => {}}>
+                <PressableText style={{paddingVertical:15}} onPress={() => {
+                  moveTo('Login');
+                }}>
                   Sign in to an existing account
                 </PressableText>
             </>

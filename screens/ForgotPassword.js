@@ -12,15 +12,18 @@ import { colors } from "../components/colors";
 import IconHeader from "../components/Icons/IconHeader";
 const { primary } = colors;
 
-const ForgotPassword = () => {
+const ForgotPassword = ({ navigation }) => {
   const [message, setMessage] = useState("");
   const [isSuccessMessage, setisSuccessMessage] = useState(false);
-
+  const moveTo = (screen, payLoad) => {
+    navigation.navigate(screen, { ...payLoad });
+  };
   const handleOnSubmit = async (credentials, setSubmiting) => {
     try {
       setMessage(null);
       //backend
       //move to next page
+      moveTo('ResetPassword');
       setSubmiting(false);
     } catch (error) {
       setMessage("Request Failed!" + error.message);
