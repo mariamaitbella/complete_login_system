@@ -18,11 +18,13 @@ const EmailVerification = () => {
   const [pinReady, setPinReady] = useState(false);
 
   const [verifying, setVerifying] = useState(false);
+  
+  // resending email
   const [activeResend, setActiveResend] = useState(false);
-
   const [resendStatus, setResendStatus] = useState("Resend");
   const [resendingEmail, setResendingEmail] = useState(false);
 
+  // modal
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessageType, setModalMessageType] = useState("");
   const [headerText, setHeaderText] = useState("");
@@ -88,7 +90,7 @@ const EmailVerification = () => {
     <MainContainer>
       <KeyboardAvoidingContainer>
         <IconHeader name="lock-open" style={{ marginBottom: 30 }} />
-        <RegularText style={{ marginBottom: 25, textAlign: "center" }}>
+        <RegularText style={{  textAlign: "center" }}>
           Enter the 4-digit code sent to your email
         </RegularText>
         <StyledCodeInput

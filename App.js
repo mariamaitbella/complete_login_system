@@ -1,10 +1,10 @@
 import { StatusBar } from "expo-status-bar";
-import ForgotPassword from './screens/ForgotPassword';
+import ResetPassword from './screens/ResetPassword';
 export default function App() {
   return (
     <>
       <StatusBar style="light" />
-      <ForgotPassword />
+      <ResetPassword />
     </>
   );
 }
