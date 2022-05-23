@@ -1,19 +1,15 @@
 import React, { useState } from "react";
-import { Formik } from "formik";
 import { ActivityIndicator } from "react-native";
 //custom components
 import MainContainer from "../components/Containers/MainContainer";
 import KeyboardAvoidingContainer from "../components/Containers/KeyboardAvoidingContainer";
 import RegularText from "../components/Texts/RegularText";
-import StyledTextInput from "../components/Inputs/StyledTextInput";
-import MsgBox from "../components/Texts/MsgBox";
 import RegularButton from "../components/Buttons/RegularButton";
 import { colors } from "../components/colors";
-import PressableText from "../components/Texts/PressableText";
-import RowContainer from "../components/Containers/RowContainer";
 import IconHeader from "../components/Icons/IconHeader";
 import StyledCodeInput from "../components/Inputs/StyledCodeInput";
 import ResendTimer from "../components/Timers/ResendTimer";
+import MessageModal from "../components/Modals/MessageModal";
 const { primary, secondary, lightGray } = colors;
 
 const EmailVerification = () => {
@@ -21,22 +17,70 @@ const EmailVerification = () => {
   const [code, setCode] = useState("");
   const [pinReady, setPinReady] = useState(false);
 
-  const [message, setMessage] = useState("");
-  const [isSuccessMessage, setisSuccessMessage] = useState(false);
   const [verifying, setVerifying] = useState(false);
-  const [activeResend, setActiveresend] = useState(false);
+  const [activeResend, setActiveResend] = useState(false);
 
   const [resendStatus, setResendStatus] = useState("Resend");
   const [resendingEmail, setResendingEmail] = useState(false);
 
-  const handleEmailVerification = async (credentials, setSubmiting) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessageType, setModalMessageType] = useState("");
+  const [headerText, setHeaderText] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
+  const [buttonText, setButtonText] = useState("");
+
+  const buttonHandler = () => {
+    if (modalMessageType === "success") {
+      // do something
+    }
+
+    setModalVisible(false);
+  };
+
+  const showModal = (type, headerText, message, buttonText) => {
+    setModalMessageType(type);
+    setHeaderText(headerText);
+    setModalMessage(message);
+    setButtonText(buttonText);
+    setModalVisible(true);
+  };
+
+  const resendEmail = async (triggerTimer) => {
     try {
-      setMessage(null);
-      //backend
+      setResendingEmail(true);
+
+      // make reaquest to backend
+      // update setResendStatus
+
+      setResendingEmail(false);
+      // hold on briefly
+
+      setTimeout(() => {
+        setResendStatus("Resend");
+        setActiveResend(false);
+        triggerTimer();
+      }, 5000);
+    } catch (error) {
+      setResendingEmail(false);
+      setResendStatus("Failed");
+      alert("Email resend failed:" + error.message);
+    }
+  };
+  const handleEmailVerification = async () => {
+    try {
+      setVerifying(true);
+      //call backend
+      setVerifying(false);
+      return showModal(
+        "success",
+        "All good",
+        "Your email has been verified",
+        "Proceed"
+      );
       //move to next page
     } catch (error) {
-      setMessage("Login failed" + error.message);
-      setSubmitting(false);
+      setVerifying(false);
+      return showModal("failed", "Failed!", error.message, "Close");
     }
   };
 
@@ -74,9 +118,18 @@ const EmailVerification = () => {
         )}
         <ResendTimer
           activeResend={activeResend}
-          setActiveResend={setActiveresend}
+          setActiveResend={setActiveResend}
           resendStatus={resendStatus}
           resendingEmail={resendingEmail}
+          resendEmail={resendEmail}
+        />
+        <MessageModal
+          modalVisible={modalVisible}
+          buttonHandler={buttonHandler}
+          type={modalMessageType}
+          headerText={headerText}
+          message={modalMessage}
+          buttonText={buttonText}
         />
       </KeyboardAvoidingContainer>
     </MainContainer>

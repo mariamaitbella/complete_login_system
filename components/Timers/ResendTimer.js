@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 
 //styled components
 import styled from "styled-components/native";
-import { StatusBarHeight } from "../shared";
 import { colors } from "../colors";
-const { primary, accent, success, fail } = colors;
+const { accent, success, fail } = colors;
 import SmallText from "../Texts/SmallText";
 import PressableText from "../Texts/PressableText";
+import RowContainer from "../Containers/RowContainer";
 
 const StyledView = styled.View`
   align-items: center;
@@ -16,9 +16,9 @@ const ResendText = styled(SmallText)`
   color: ${accent};
   ${(props) => {
     const { resendStatus } = props;
-    if ((resendStatus == "Failed!")) {
+    if (resendStatus == "Failed!") {
       return `color: ${fail}`;
-    } else if(resendStatus == 'Sent!') {
+    } else if (resendStatus == "Sent!") {
       return `color:${success}`;
     }
   }}
@@ -62,9 +62,17 @@ const ResendTimer = ({
 
   return (
     <StyledView {...props}>
-      <PressableText onPress={() => resendEmail(triggerTimer)}>
-        <ResendText resendStatus={resendStatus}> {resendStatus}</ResendText>
-      </PressableText>
+      <RowContainer>
+        <SmallText>Didn't receive the code?</SmallText>
+        <PressableText
+          onPress={() => resendEmail(triggerTimer)}
+          disabled={!activeResend}
+          style={{ opacity: !activeResend ? 0.65 : 1 }}
+        >
+          <ResendText resendStatus={resendStatus}> {resendStatus}</ResendText>
+        </PressableText>
+      </RowContainer>
+
       {!activeResend && (
         <SmallText>
           in
